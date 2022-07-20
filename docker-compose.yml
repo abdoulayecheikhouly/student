@@ -1,21 +1,33 @@
 version: "3"
 services:
-  student-microservice:
-    image: student-microservice
-    ports:
-      - "8080:8080"
-    networks:
-      - employee-mysql
-    depends_on:
-      - mysqldb
+
 
   mysqldb:
     image: mysql:8
     networks:
-      - employee-mysql
+      - spring-cloud-network
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=bootdb
 
+  app:
+    build:
+     context: ./
+     dockerfile: Dockerfile
+    container_name: app
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-cloud-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/bootdb
+      - SPRING_DATASOURCE_USERNAME=laye
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+    depends_on:
+      - mysqldb
+
 networks:
-  employee-mysql:
+  spring-cloud-network:
+    driver: bridge
