@@ -1,4 +1,4 @@
-/*
+
 package com.sangomar.student;
 
 import org.junit.jupiter.api.Test;
@@ -12,4 +12,4 @@ class StudentApplicationTests {
 	}
 
 }
-*/
+
